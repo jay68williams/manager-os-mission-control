@@ -40,14 +40,18 @@ const SERVICE_ACCOUNTS = new Set([
   'ntp', 'chrony', 'systemd-network', 'systemd-resolve',
 ])
 
-/** Check if a CLI tool (claude, codex) is accessible for a given user home dir */
+/** Check if a CLI tool (claude, codex, openclaw) is accessible for a given user home dir */
 function checkToolExists(homeDir: string, tool: string): boolean {
   // Check common install locations relative to user home
   const candidates = [
     path.join(homeDir, '.local', 'bin', tool),
     path.join(homeDir, '.npm-global', 'bin', tool),
-    path.join(homeDir, `.${tool}`),             // e.g. ~/.claude, ~/.openclaw config dir = installed
   ]
+  // Check tool-specific config directories (static paths to avoid bundler tracing)
+  if (tool === 'claude') candidates.push(path.join(homeDir, '.claude'))
+  else if (tool === 'codex') candidates.push(path.join(homeDir, '.codex'))
+  else if (tool === 'openclaw') candidates.push(path.join(homeDir, '.openclaw'))
+
   for (const p of candidates) {
     try { if (fs.existsSync(p)) return true } catch {}
   }
