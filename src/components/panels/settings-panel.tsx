@@ -4,6 +4,7 @@ import { useState, useEffect, useCallback } from 'react'
 import { useTranslations } from 'next-intl'
 import { Button } from '@/components/ui/button'
 import { LanguageSwitcherSelect } from '@/components/ui/language-switcher'
+import { PillTag } from '@/components/ui/pill-tag'
 import { useMissionControl } from '@/store'
 import { useNavigateToPanel } from '@/lib/navigation'
 import { SecurityScanCard } from '@/components/onboarding/security-scan-card'
@@ -406,8 +407,9 @@ export function SettingsPanel() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-lg font-semibold text-foreground">{t('title')}</h2>
-          <p className="text-xs text-muted-foreground mt-0.5">{t('description')}</p>
+          <PillTag className="mb-1.5">SETTINGS</PillTag>
+          <h2 className="text-2xl font-extrabold text-[#F5F5F0] tracking-tight">{t('title')}</h2>
+          <p className="text-xs text-[#888884] mt-0.5">{t('description')}</p>
         </div>
         <div className="flex items-center gap-2">
           {hasChanges && (
@@ -415,6 +417,7 @@ export function SettingsPanel() {
               onClick={handleDiscard}
               variant="outline"
               size="sm"
+              className="border-[#333331] text-[#888884] hover:text-[#F5F5F0] rounded-[6px]"
             >
               {t('discard')}
             </Button>
@@ -422,9 +425,8 @@ export function SettingsPanel() {
           <Button
             onClick={handleSave}
             disabled={!hasChanges || saving}
-            variant={hasChanges ? 'default' : 'secondary'}
             size="sm"
-            className={!hasChanges ? 'cursor-not-allowed' : ''}
+            className={hasChanges ? 'bg-[#E8353C] text-white hover:bg-[#C82D33] rounded-[6px]' : 'bg-[#252524] text-[#555553] cursor-not-allowed rounded-[6px]'}
           >
             {saving ? t('saving') : t('saveChanges')}
           </Button>
@@ -433,7 +435,7 @@ export function SettingsPanel() {
 
       {/* Workspace Info */}
       {currentUser?.role === 'admin' && (
-        <div className="bg-blue-500/10 border border-blue-500/20 rounded-lg p-3 text-xs text-blue-300">
+        <div className="bg-[#3B82F6]/10 border border-[#3B82F6]/20 rounded-[8px] p-3 text-xs text-[#60A5FA]">
           <strong className="text-blue-200">{t('workspaceManagementLabel')}</strong>{' '}
           {t('workspaceManagementDesc1')}{' '}
           <Button
@@ -452,7 +454,7 @@ export function SettingsPanel() {
       {currentUser?.role === 'admin' && (
         <div className="space-y-3">
           {/* Security Scan */}
-          <div className="flex items-center gap-3 p-3 bg-surface-1/50 border border-border/30 rounded-lg">
+          <div className="flex items-center gap-3 p-3 bg-[#1C1C1B] border border-[#333331] rounded-[8px]">
             <div className="flex-1">
               <p className="text-xs font-medium">{t('security')}</p>
               <p className="text-2xs text-muted-foreground">{t('securityDescription')}</p>
@@ -467,13 +469,13 @@ export function SettingsPanel() {
             </Button>
           </div>
           {showSecurityScan && (
-            <div className="p-4 bg-surface-1/30 border border-border/30 rounded-lg">
+            <div className="p-4 bg-[#0D0D0C] border border-[#333331] rounded-[8px]">
               <SecurityScanCard />
             </div>
           )}
 
           {/* Backup Actions */}
-          <div className="flex items-center gap-3 p-3 bg-surface-1/50 border border-border/30 rounded-lg">
+          <div className="flex items-center gap-3 p-3 bg-[#1C1C1B] border border-[#333331] rounded-[8px]">
             <div className="flex-1">
               <p className="text-xs font-medium">{t('backups')}</p>
               <p className="text-2xs text-muted-foreground">{t('backupsDescription')}</p>
@@ -529,7 +531,7 @@ export function SettingsPanel() {
           </div>
 
           {/* Replay Onboarding */}
-          <div className="flex items-center gap-3 p-3 bg-surface-1/50 border border-border/30 rounded-lg">
+          <div className="flex items-center gap-3 p-3 bg-[#1C1C1B] border border-[#333331] rounded-[8px]">
             <div className="flex-1">
               <p className="text-xs font-medium">{t('onboarding')}</p>
               <p className="text-2xs text-muted-foreground">{t('onboardingDescription')}</p>
@@ -567,7 +569,7 @@ export function SettingsPanel() {
 
           {/* Hermes Agent Integration */}
           {hermesStatus?.installed && (
-            <div className="p-3 bg-surface-1/50 border border-border/30 rounded-lg space-y-2">
+            <div className="p-3 bg-[#1C1C1B] border border-[#333331] rounded-[8px] space-y-2">
               <div className="flex items-center justify-between">
                 <div className="flex-1">
                   <div className="flex items-center gap-2">
@@ -643,8 +645,8 @@ export function SettingsPanel() {
 
       {/* Feedback */}
       {feedback && (
-        <div className={`rounded-lg p-3 text-xs font-medium ${
-          feedback.ok ? 'bg-green-500/10 text-green-400' : 'bg-destructive/10 text-destructive'
+        <div className={`rounded-[8px] p-3 text-xs font-medium ${
+          feedback.ok ? 'bg-[#4ADE80]/10 text-[#4ADE80]' : 'bg-[#E8353C]/10 text-[#E8353C]'
         }`}>
           {feedback.text}
         </div>
@@ -654,29 +656,27 @@ export function SettingsPanel() {
       <LanguageSection />
 
       {/* Category tabs */}
-      <div className="flex gap-1 border-b border-border pb-px">
+      <div className="flex gap-1 border-b border-[#333331] pb-px">
         {categories.map(cat => {
           const meta = categoryLabels[cat] || { label: cat, icon: '📋', description: '' }
           const changedCount = (grouped[cat] || []).filter(s => edits[s.key] !== undefined && edits[s.key] !== s.value).length
           return (
-            <Button
+            <button
               key={cat}
               onClick={() => setActiveCategory(cat)}
-              variant="ghost"
-              size="sm"
-              className={`rounded-t-md rounded-b-none relative ${
+              className={`px-3 py-1.5 text-xs font-semibold rounded-t-[6px] transition-colors ${
                 activeCategory === cat
-                  ? 'bg-card text-foreground border border-border border-b-card -mb-px'
-                  : ''
+                  ? 'bg-[#1C1C1B] text-[#F5F5F0] border border-[#333331] border-b-[#1C1C1B] -mb-px'
+                  : 'text-[#888884] hover:text-[#F5F5F0]'
               }`}
             >
               {meta.label}
               {changedCount > 0 && (
-                <span className="ml-1.5 inline-flex items-center justify-center w-4 h-4 text-2xs rounded-full bg-primary text-primary-foreground">
+                <span className="ml-1.5 inline-flex items-center justify-center w-4 h-4 text-2xs rounded-full bg-[#E8353C] text-white">
                   {changedCount}
                 </span>
               )}
-            </Button>
+            </button>
           )
         })}
       </div>
@@ -684,7 +684,7 @@ export function SettingsPanel() {
       {/* Security: API Key Management */}
       {activeCategory === 'security' && (
         <div className="space-y-3">
-          <div className="bg-card border border-border rounded-lg p-4">
+          <div className="bg-[#1C1C1B] border border-[#333331] rounded-[8px] p-4">
             <div className="flex items-start justify-between gap-4">
               <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-2">
@@ -703,7 +703,7 @@ export function SettingsPanel() {
 
             {/* Current key display */}
             <div className="mt-3 flex items-center gap-2">
-              <code className="text-xs font-mono bg-background border border-border rounded px-2 py-1 text-muted-foreground">
+              <code className="text-xs font-mono bg-[#0D0D0C] border border-[#333331] rounded-[4px] px-2 py-1 text-[#888884]">
                 {apiKeyLoading ? 'Loading...' : apiKeyInfo?.masked_key || 'No API key configured'}
               </code>
             </div>
@@ -728,8 +728,8 @@ export function SettingsPanel() {
                 </Button>
               </div>
             ) : (
-              <div className="mt-3 bg-amber-500/10 border border-amber-500/20 rounded-lg p-3">
-                <p className="text-xs text-amber-300 mb-2">
+              <div className="mt-3 bg-[#FBBF24]/10 border border-[#FBBF24]/20 rounded-[8px] p-3">
+                <p className="text-xs text-[#FBBF24] mb-2">
                   Are you sure? Rotating the API key will immediately invalidate the current key.
                   All agents and integrations using the old key will lose access.
                 </p>
@@ -756,12 +756,12 @@ export function SettingsPanel() {
 
             {/* New key display (shown once after rotation) */}
             {newApiKey && (
-              <div className="mt-3 bg-green-500/10 border border-green-500/20 rounded-lg p-3">
-                <p className="text-xs text-green-300 mb-2 font-medium">
+              <div className="mt-3 bg-[#4ADE80]/10 border border-[#4ADE80]/20 rounded-[8px] p-3">
+                <p className="text-xs text-[#4ADE80] mb-2 font-medium">
                   New API key generated. Copy it now -- it will not be shown again.
                 </p>
                 <div className="flex items-center gap-2">
-                  <code className="text-xs font-mono bg-background border border-border rounded px-2 py-1.5 text-foreground select-all flex-1 break-all">
+                  <code className="text-xs font-mono bg-[#0D0D0C] border border-[#333331] rounded-[4px] px-2 py-1.5 text-[#F5F5F0] select-all flex-1 break-all">
                     {newApiKey}
                   </code>
                   <Button
@@ -792,9 +792,9 @@ export function SettingsPanel() {
       {/* Security Profiles: Hook Profile Selector */}
       {activeCategory === 'profiles' && (
         <div className="space-y-3">
-          <div className="bg-card border border-border rounded-lg p-4">
-            <h3 className="text-sm font-medium text-foreground mb-1">Hook Profile</h3>
-            <p className="text-xs text-muted-foreground mb-4">
+          <div className="bg-[#1C1C1B] border border-[#333331] rounded-[8px] p-4">
+            <h3 className="text-sm font-bold text-[#F5F5F0] mb-1">Hook Profile</h3>
+            <p className="text-xs text-[#888884] mb-4">
               Controls how aggressively security hooks scan tool calls and agent outputs.
             </p>
             <div className="space-y-2">
@@ -826,21 +826,21 @@ export function SettingsPanel() {
                     }
                   }}
                   disabled={hookProfileSaving}
-                  className={`w-full text-left p-3 rounded-lg border transition-colors ${
+                  className={`w-full text-left p-3 rounded-[8px] border transition-colors ${
                     hookProfile === profile.value
-                      ? 'border-primary bg-primary/5'
-                      : 'border-border hover:border-muted-foreground/30 bg-secondary'
+                      ? 'border-[#E8353C]/50 bg-[#E8353C]/5'
+                      : 'border-[#333331] hover:border-[#555553] bg-[#0D0D0C]'
                   }`}
                 >
                   <div className="flex items-center gap-2 mb-1">
                     <div className={`w-3 h-3 rounded-full border-2 flex items-center justify-center ${
-                      hookProfile === profile.value ? 'border-primary' : 'border-muted-foreground/50'
+                      hookProfile === profile.value ? 'border-[#E8353C]' : 'border-[#555553]'
                     }`}>
                       {hookProfile === profile.value && (
-                        <div className="w-1.5 h-1.5 rounded-full bg-primary" />
+                        <div className="w-1.5 h-1.5 rounded-full bg-[#E8353C]" />
                       )}
                     </div>
-                    <span className="text-sm font-medium text-foreground">{profile.label}</span>
+                    <span className="text-sm font-semibold text-[#F5F5F0]">{profile.label}</span>
                   </div>
                   <p className="text-xs text-muted-foreground ml-5">{profile.desc}</p>
                 </button>
@@ -880,8 +880,8 @@ export function SettingsPanel() {
           return (
             <div
               key={setting.key}
-              className={`bg-card border rounded-lg p-4 transition-colors ${
-                isChanged ? 'border-primary/50' : 'border-border'
+              className={`bg-[#1C1C1B] border rounded-[8px] p-4 transition-colors ${
+                isChanged ? 'border-[#E8353C]/50' : 'border-[#333331]'
               }`}
             >
               <div className="flex items-start justify-between gap-4">
@@ -905,7 +905,7 @@ export function SettingsPanel() {
                       <select
                         value={currentValue}
                         onChange={e => handleEdit(setting.key, e.target.value)}
-                        className="w-64 px-2 py-1 text-sm bg-background border border-border rounded-md focus:border-primary focus:outline-none"
+                        className="w-64 px-2 py-1 text-sm bg-[#0D0D0C] border border-[#333331] rounded-[6px] focus:border-[#E8353C] focus:outline-none text-[#F5F5F0]"
                       >
                         {dropdownOptions.map(opt => (
                           <option key={opt.value} value={opt.value}>{opt.label}</option>
@@ -918,7 +918,7 @@ export function SettingsPanel() {
                     <button
                       onClick={() => handleEdit(setting.key, currentValue === 'true' ? 'false' : 'true')}
                       className={`w-10 h-5 rounded-full relative transition-colors select-none ${
-                        currentValue === 'true' ? 'bg-primary' : 'bg-muted'
+                        currentValue === 'true' ? 'bg-[#E8353C]' : 'bg-[#333331]'
                       }`}
                     >
                       <span className={`absolute top-0.5 w-4 h-4 rounded-full bg-white shadow transition-transform ${
@@ -930,14 +930,14 @@ export function SettingsPanel() {
                       type="number"
                       value={currentValue}
                       onChange={e => handleEdit(setting.key, e.target.value)}
-                      className="w-24 px-2 py-1 text-sm text-right bg-background border border-border rounded-md focus:border-primary focus:outline-none font-mono"
+                      className="w-24 px-2 py-1 text-sm text-right bg-[#0D0D0C] border border-[#333331] rounded-[6px] focus:border-[#E8353C] focus:outline-none font-mono text-[#F5F5F0]"
                     />
                   ) : (
                     <input
                       type="text"
                       value={currentValue}
                       onChange={e => handleEdit(setting.key, e.target.value)}
-                      className="w-48 px-2 py-1 text-sm bg-background border border-border rounded-md focus:border-primary focus:outline-none"
+                      className="w-48 px-2 py-1 text-sm bg-[#0D0D0C] border border-[#333331] rounded-[6px] focus:border-[#E8353C] focus:outline-none text-[#F5F5F0]"
                     />
                   )}
 
@@ -977,7 +977,7 @@ export function SettingsPanel() {
 
       {/* Unsaved changes bar */}
       {hasChanges && (
-        <div className="fixed bottom-4 left-1/2 -translate-x-1/2 bg-card border border-border rounded-lg shadow-lg px-4 py-2.5 flex items-center gap-3 z-40">
+        <div className="fixed bottom-4 left-1/2 -translate-x-1/2 bg-[#1C1C1B] border border-[#333331] rounded-[8px] shadow-lg px-4 py-2.5 flex items-center gap-3 z-40">
           <div className="w-2 h-2 rounded-full bg-amber-500 animate-pulse" />
           <span className="text-xs text-foreground">
             {Object.keys(edits).filter(k => {
@@ -1032,9 +1032,9 @@ function InterfaceModeSelector() {
   }
 
   return (
-    <div className="bg-card border border-border rounded-lg p-4">
-      <h3 className="text-sm font-medium text-foreground mb-1">Interface Mode</h3>
-      <p className="text-xs text-muted-foreground mb-3">
+    <div className="bg-[#1C1C1B] border border-[#333331] rounded-[8px] p-4">
+      <h3 className="text-sm font-bold text-[#F5F5F0] mb-1">Interface Mode</h3>
+      <p className="text-xs text-[#888884] mb-3">
         Controls how many panels appear in the sidebar.
       </p>
       <div className="space-y-2">
@@ -1046,21 +1046,21 @@ function InterfaceModeSelector() {
             key={option.value}
             onClick={() => handleChange(option.value)}
             disabled={saving}
-            className={`w-full text-left p-3 rounded-lg border transition-colors ${
+            className={`w-full text-left p-3 rounded-[8px] border transition-colors ${
               interfaceMode === option.value
-                ? 'border-primary bg-primary/5'
-                : 'border-border hover:border-muted-foreground/30 bg-secondary'
+                ? 'border-[#E8353C]/50 bg-[#E8353C]/5'
+                : 'border-[#333331] hover:border-[#555553] bg-[#0D0D0C]'
             }`}
           >
             <div className="flex items-center gap-2 mb-1">
               <div className={`w-3 h-3 rounded-full border-2 flex items-center justify-center ${
-                interfaceMode === option.value ? 'border-primary' : 'border-muted-foreground/50'
+                interfaceMode === option.value ? 'border-[#E8353C]' : 'border-[#555553]'
               }`}>
                 {interfaceMode === option.value && (
-                  <div className="w-1.5 h-1.5 rounded-full bg-primary" />
+                  <div className="w-1.5 h-1.5 rounded-full bg-[#E8353C]" />
                 )}
               </div>
-              <span className="text-sm font-medium text-foreground">{option.label}</span>
+              <span className="text-sm font-semibold text-[#F5F5F0]">{option.label}</span>
             </div>
             <p className="text-xs text-muted-foreground ml-5">{option.desc}</p>
           </button>
@@ -1074,7 +1074,7 @@ function InterfaceModeSelector() {
 function LanguageSection() {
   const ts = useTranslations('settings')
   return (
-    <div className="bg-card border border-border rounded-lg p-4">
+    <div className="bg-[#1C1C1B] border border-[#333331] rounded-[8px] p-4">
       <div className="flex items-center justify-between gap-4">
         <div>
           <p className="text-sm font-medium text-foreground">{ts('language')}</p>
@@ -1131,12 +1131,12 @@ function AccountOAuthSection() {
         <h3 className="text-sm font-medium text-foreground">Account</h3>
       </div>
 
-      <div className="bg-card border border-border rounded-lg p-4">
+      <div className="bg-[#1C1C1B] border border-[#333331] rounded-[8px] p-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
             {/* Google icon */}
             <div className={`w-8 h-8 rounded-full flex items-center justify-center shrink-0 ${
-              isGoogleConnected ? 'bg-white' : 'bg-muted'
+              isGoogleConnected ? 'bg-white' : 'bg-[#252524]'
             }`}>
               <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none">
                 <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 01-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z" fill="#4285F4" />

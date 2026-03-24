@@ -4,6 +4,7 @@ import { useState, useEffect, useRef, useCallback } from 'react'
 import { useTranslations } from 'next-intl'
 import { Button } from '@/components/ui/button'
 import { Loader } from '@/components/ui/loader'
+import { PillTag } from '@/components/ui/pill-tag'
 import { useMissionControl } from '@/store'
 import { useSmartPoll } from '@/lib/use-smart-poll'
 import { createClientLogger } from '@/lib/client-logger'
@@ -171,21 +172,21 @@ export function LogViewerPanel() {
 
   const getLogLevelColor = (level: string) => {
     switch (level.toLowerCase()) {
-      case 'error': return 'text-red-400'
-      case 'warn': return 'text-yellow-400'
-      case 'info': return 'text-blue-400'
-      case 'debug': return 'text-muted-foreground'
-      default: return 'text-foreground'
+      case 'error': return 'text-[#E8353C]'
+      case 'warn': return 'text-[#FBBF24]'
+      case 'info': return 'text-[#60A5FA]'
+      case 'debug': return 'text-[#888884]'
+      default: return 'text-[#F5F5F0]'
     }
   }
 
   const getLogLevelBg = (level: string) => {
     switch (level.toLowerCase()) {
-      case 'error': return 'bg-red-500/10 border-red-500/20'
-      case 'warn': return 'bg-yellow-500/10 border-yellow-500/20'
-      case 'info': return 'bg-blue-500/10 border-blue-500/20'
-      case 'debug': return 'bg-gray-500/10 border-gray-500/20'
-      default: return 'bg-secondary border-border'
+      case 'error': return 'bg-[#E8353C]/10 border-[#E8353C]/20'
+      case 'warn': return 'bg-[#FBBF24]/10 border-[#FBBF24]/20'
+      case 'info': return 'bg-[#3B82F6]/10 border-[#3B82F6]/20'
+      case 'debug': return 'bg-[#333331]/30 border-[#333331]/50'
+      default: return 'bg-[#252524] border-[#333331]'
     }
   }
 
@@ -216,28 +217,29 @@ export function LogViewerPanel() {
 
   return (
     <div className="flex flex-col h-full p-6 space-y-4">
-      <div className="border-b border-border pb-4">
-        <h1 className="text-3xl font-bold text-foreground">{t('title')}</h1>
-        <p className="text-muted-foreground mt-2">
+      <div className="pb-4">
+        <PillTag className="mb-1.5">SYSTEM LOGS</PillTag>
+        <h1 className="text-2xl font-extrabold text-[#F5F5F0] tracking-tight">{t('title')}</h1>
+        <p className="text-[#888884] text-sm mt-1">
           {t('description')}
           {logFilePath && (
-            <span className="ml-3 font-mono text-xs text-muted-foreground/70">{logFilePath}</span>
+            <span className="ml-3 font-mono text-xs text-[#888884]/60">{logFilePath}</span>
           )}
         </p>
       </div>
 
       {/* Filters and Controls */}
-      <div className="bg-card border border-border rounded-lg p-4">
+      <div className="bg-[#0D0D0C] border border-[#333331] rounded-[8px] p-4">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-6 gap-4">
           {/* Level Filter */}
           <div>
-            <label className="block text-sm font-medium text-foreground mb-2">
+            <label className="block text-xs font-semibold text-[#888884] uppercase tracking-wider mb-2">
               {t('filterLevel')}
             </label>
             <select
               value={logFilters.level || ''}
               onChange={(e) => handleFilterChange({ level: e.target.value || undefined })}
-              className="w-full px-3 py-2 border border-border rounded-md bg-background text-foreground text-sm focus:outline-none focus:ring-2 focus:ring-primary/50"
+              className="w-full px-3 py-2 border border-[#333331] rounded-[6px] bg-[#1C1C1B] text-[#F5F5F0] text-xs focus:outline-none focus:ring-2 focus:ring-[#E8353C]/40"
             >
               <option value="">{t('allLevels')}</option>
               <option value="error">{t('levelError')}</option>
@@ -249,13 +251,13 @@ export function LogViewerPanel() {
 
           {/* Source Filter */}
           <div>
-            <label className="block text-sm font-medium text-foreground mb-2">
+            <label className="block text-xs font-semibold text-[#888884] uppercase tracking-wider mb-2">
               {t('filterSource')}
             </label>
             <select
               value={logFilters.source || ''}
               onChange={(e) => handleFilterChange({ source: e.target.value || undefined })}
-              className="w-full px-3 py-2 border border-border rounded-md bg-background text-foreground text-sm focus:outline-none focus:ring-2 focus:ring-primary/50"
+              className="w-full px-3 py-2 border border-[#333331] rounded-[6px] bg-[#1C1C1B] text-[#F5F5F0] text-xs focus:outline-none focus:ring-2 focus:ring-[#E8353C]/40"
             >
               <option value="">{t('allSources')}</option>
               {availableSources.map((source) => (
@@ -266,7 +268,7 @@ export function LogViewerPanel() {
 
           {/* Session Filter */}
           <div>
-            <label className="block text-sm font-medium text-foreground mb-2">
+            <label className="block text-xs font-semibold text-[#888884] uppercase tracking-wider mb-2">
               {t('filterSession')}
             </label>
             <input
@@ -274,13 +276,13 @@ export function LogViewerPanel() {
               value={logFilters.session || ''}
               onChange={(e) => handleFilterChange({ session: e.target.value || undefined })}
               placeholder={t('sessionPlaceholder')}
-              className="w-full px-3 py-2 border border-border rounded-md bg-background text-foreground placeholder-muted-foreground text-sm focus:outline-none focus:ring-2 focus:ring-primary/50"
+              className="w-full px-3 py-2 border border-[#333331] rounded-[6px] bg-[#1C1C1B] text-[#F5F5F0] placeholder-[#555553] text-xs focus:outline-none focus:ring-2 focus:ring-[#E8353C]/40"
             />
           </div>
 
           {/* Search Filter */}
           <div>
-            <label className="block text-sm font-medium text-foreground mb-2">
+            <label className="block text-xs font-semibold text-[#888884] uppercase tracking-wider mb-2">
               {t('filterSearch')}
             </label>
             <input
@@ -288,7 +290,7 @@ export function LogViewerPanel() {
               value={logFilters.search || ''}
               onChange={(e) => handleFilterChange({ search: e.target.value || undefined })}
               placeholder={t('searchPlaceholder')}
-              className="w-full px-3 py-2 border border-border rounded-md bg-background text-foreground placeholder-muted-foreground text-sm focus:outline-none focus:ring-2 focus:ring-primary/50"
+              className="w-full px-3 py-2 border border-[#333331] rounded-[6px] bg-[#1C1C1B] text-[#F5F5F0] placeholder-[#555553] text-xs focus:outline-none focus:ring-2 focus:ring-[#E8353C]/40"
             />
           </div>
 
@@ -351,10 +353,10 @@ export function LogViewerPanel() {
       </div>
 
       {/* Log Display */}
-      <div className="flex-1 bg-card border border-border rounded-lg overflow-hidden">
+      <div className="flex-1 bg-[#0A0A09] border border-[#333331] rounded-[8px] overflow-hidden">
         <div 
           ref={logContainerRef}
-          className="h-full overflow-auto p-4 space-y-2 font-mono text-sm"
+          className="h-full overflow-auto p-4 space-y-2 font-mono text-xs"
         >
           {isLoading ? (
             <Loader variant="panel" label="Loading logs" />

@@ -4,6 +4,7 @@ import { useState, useEffect, useCallback, useRef } from 'react'
 import { useTranslations } from 'next-intl'
 import { Button } from '@/components/ui/button'
 import { Loader } from '@/components/ui/loader'
+import { PillTag } from '@/components/ui/pill-tag'
 import { useMissionControl } from '@/store'
 import { createClientLogger } from '@/lib/client-logger'
 import {
@@ -72,7 +73,7 @@ interface SessionCostEntry {
 
 // ── Helpers ──────────────────────────────────────────
 
-const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#8884d8', '#82ca9d', '#ffc658', '#ff6b6b']
+const COLORS = ['#E8353C', '#4ADE80', '#FBBF24', '#60A5FA', '#A78BFA', '#34D399', '#F59E0B', '#FB923C']
 
 const formatNumber = (num: number) => {
   if (num >= 1_000_000) return (num / 1_000_000).toFixed(1) + 'M'
@@ -203,21 +204,22 @@ export function CostTrackerPanel() {
   return (
     <div className="p-6 space-y-6">
       {/* Header */}
-      <div className="border-b border-border pb-4">
+      <div className="pb-4">
         <div className="flex items-center justify-between flex-wrap gap-3">
           <div>
-            <h1 className="text-3xl font-bold text-foreground">{t('title')}</h1>
-            <p className="text-muted-foreground mt-1">{t('subtitle')}</p>
+            <PillTag className="mb-1.5">COST TRACKING</PillTag>
+            <h1 className="text-2xl font-extrabold text-[#F5F5F0] tracking-tight">{t('title')}</h1>
+            <p className="text-[#888884] text-sm mt-1">{t('subtitle')}</p>
           </div>
           <div className="flex items-center gap-3">
             {/* View tabs */}
-            <div className="flex rounded-lg border border-border overflow-hidden">
+            <div className="flex rounded-[6px] border border-[#333331] overflow-hidden">
               {(['overview', 'agents', 'sessions', 'tasks'] as const).map(v => (
                 <button
                   key={v}
                   onClick={() => setView(v)}
-                  className={`px-3 py-1.5 text-xs font-medium transition-colors ${
-                    view === v ? 'bg-primary text-primary-foreground' : 'bg-card text-muted-foreground hover:text-foreground'
+                  className={`px-3 py-1.5 text-xs font-semibold transition-colors ${
+                    view === v ? 'bg-[#E8353C] text-white' : 'bg-[#1C1C1B] text-[#888884] hover:text-[#F5F5F0]'
                   }`}
                 >
                   {v.charAt(0).toUpperCase() + v.slice(1)}
@@ -227,9 +229,11 @@ export function CostTrackerPanel() {
             {/* Timeframe */}
             <div className="flex space-x-1">
               {(['hour', 'day', 'week', 'month'] as const).map(tf => (
-                <Button key={tf} onClick={() => setTimeframe(tf)} variant={timeframe === tf ? 'default' : 'secondary'} size="sm">
+                <button key={tf} onClick={() => setTimeframe(tf)} className={`px-3 py-1.5 text-xs font-semibold rounded-[6px] transition-colors ${
+                  timeframe === tf ? 'bg-[#252524] text-[#F5F5F0]' : 'text-[#888884] hover:text-[#F5F5F0]'
+                }`}>
                   {tf.charAt(0).toUpperCase() + tf.slice(1)}
-                </Button>
+                </button>
               ))}
             </div>
           </div>
@@ -324,40 +328,40 @@ function OverviewView({
     <div className="space-y-6">
       {/* Summary cards */}
       <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
-        <div className="bg-card border border-border rounded-lg p-5">
-          <div className="text-3xl font-bold text-foreground">{formatCost(stats.summary.totalCost)}</div>
-          <div className="text-sm text-muted-foreground">{t('totalCost', { timeframe })}</div>
+        <div className="bg-[#1C1C1B] border border-[#333331] rounded-[8px] p-5">
+          <div className="text-3xl font-extrabold text-[#F5F5F0]">{formatCost(stats.summary.totalCost)}</div>
+          <div className="text-xs text-[#888884] mt-1">{t('totalCost', { timeframe })}</div>
         </div>
-        <div className="bg-card border border-border rounded-lg p-5">
-          <div className="text-3xl font-bold text-foreground">{formatNumber(stats.summary.totalTokens)}</div>
-          <div className="text-sm text-muted-foreground">{t('totalTokens')}</div>
+        <div className="bg-[#1C1C1B] border border-[#333331] rounded-[8px] p-5">
+          <div className="text-3xl font-extrabold text-[#F5F5F0]">{formatNumber(stats.summary.totalTokens)}</div>
+          <div className="text-xs text-[#888884] mt-1">{t('totalTokens')}</div>
         </div>
-        <div className="bg-card border border-border rounded-lg p-5">
-          <div className="text-3xl font-bold text-foreground">{formatNumber(stats.summary.requestCount)}</div>
-          <div className="text-sm text-muted-foreground">{t('apiRequests')}</div>
+        <div className="bg-[#1C1C1B] border border-[#333331] rounded-[8px] p-5">
+          <div className="text-3xl font-extrabold text-[#F5F5F0]">{formatNumber(stats.summary.requestCount)}</div>
+          <div className="text-xs text-[#888884] mt-1">{t('apiRequests')}</div>
         </div>
-        <div className="bg-card border border-border rounded-lg p-5">
-          <div className="text-3xl font-bold text-foreground">{agentSummary?.agent_count ?? '-'}</div>
-          <div className="text-sm text-muted-foreground">{t('activeAgents')}</div>
+        <div className="bg-[#1C1C1B] border border-[#333331] rounded-[8px] p-5">
+          <div className="text-3xl font-extrabold text-[#F5F5F0]">{agentSummary?.agent_count ?? '-'}</div>
+          <div className="text-xs text-[#888884] mt-1">{t('activeAgents')}</div>
         </div>
-        <div className="bg-card border border-border rounded-lg p-5">
-          <div className="text-3xl font-bold text-foreground">
+        <div className="bg-[#1C1C1B] border border-[#333331] rounded-[8px] p-5">
+          <div className="text-3xl font-extrabold text-[#F5F5F0]">
             {taskData ? `${((1 - taskData.unattributed.totalCost / Math.max(stats.summary.totalCost, 0.0001)) * 100).toFixed(0)}%` : '-'}
           </div>
-          <div className="text-sm text-muted-foreground">{t('taskAttributed')}</div>
+          <div className="text-xs text-[#888884] mt-1">{t('taskAttributed')}</div>
         </div>
       </div>
 
       {/* Charts */}
       <div className="grid lg:grid-cols-2 gap-6">
         {/* Trend chart */}
-        <div className="bg-card border border-border rounded-lg p-6 lg:col-span-2">
+        <div className="bg-[#1C1C1B] border border-[#333331] rounded-[8px] p-6 lg:col-span-2">
           <div className="flex items-center justify-between mb-4">
-            <h2 className="text-xl font-semibold">{t('usageTrends')}</h2>
-            <div className="flex rounded-md border border-border overflow-hidden">
+            <h2 className="text-lg font-bold text-[#F5F5F0]">{t('usageTrends')}</h2>
+            <div className="flex rounded-[6px] border border-[#333331] overflow-hidden">
               {(['incremental', 'cumulative'] as const).map(m => (
                 <button key={m} onClick={() => setChartMode(m)}
-                  className={`px-2 py-1 text-[10px] font-medium ${chartMode === m ? 'bg-primary text-primary-foreground' : 'bg-card text-muted-foreground hover:text-foreground'}`}
+                  className={`px-2 py-1 text-[10px] font-semibold ${chartMode === m ? 'bg-[#E8353C] text-white' : 'bg-[#1C1C1B] text-[#888884] hover:text-[#F5F5F0]'}`}
                 >{m === 'incremental' ? t('perTurn') : t('cumulative')}</button>
               ))}
             </div>
@@ -368,11 +372,11 @@ function OverviewView({
             ) : (
               <ResponsiveContainer width="100%" height="100%">
                 <LineChart data={trendChartData}>
-                  <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis dataKey="time" /><YAxis />
-                  <Tooltip /><Legend />
-                  <Line type="monotone" dataKey="tokens" stroke="#8884d8" strokeWidth={2} name="Tokens" />
-                  <Line type="monotone" dataKey="requests" stroke="#82ca9d" strokeWidth={2} name="Requests" />
+                  <CartesianGrid strokeDasharray="3 3" stroke="#333331" />
+                  <XAxis dataKey="time" stroke="#888884" tick={{ fill: '#888884', fontSize: 11 }} /><YAxis stroke="#888884" tick={{ fill: '#888884', fontSize: 11 }} />
+                  <Tooltip contentStyle={{ background: '#1C1C1B', border: '1px solid #333331', borderRadius: '8px', color: '#F5F5F0' }} /><Legend />
+                  <Line type="monotone" dataKey="tokens" stroke="#E8353C" strokeWidth={2} name="Tokens" />
+                  <Line type="monotone" dataKey="requests" stroke="#4ADE80" strokeWidth={2} name="Requests" />
                 </LineChart>
               </ResponsiveContainer>
             )}
@@ -380,18 +384,18 @@ function OverviewView({
         </div>
 
         {/* Model bar chart */}
-        <div className="bg-card border border-border rounded-lg p-6">
-          <h2 className="text-xl font-semibold mb-4">{t('tokenUsageByModel')}</h2>
+        <div className="bg-[#1C1C1B] border border-[#333331] rounded-[8px] p-6">
+          <h2 className="text-lg font-bold text-[#F5F5F0] mb-4">{t('tokenUsageByModel')}</h2>
           <div className="h-64">
             {modelData.length === 0 ? (
               <div className="h-full flex items-center justify-center text-muted-foreground text-sm">{t('noModelData')}</div>
             ) : (
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart data={modelData}>
-                  <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis dataKey="name" angle={-45} textAnchor="end" height={80} interval={0} />
-                  <YAxis /><Tooltip formatter={(v, n) => [formatNumber(Number(v)), n]} />
-                  <Bar dataKey="tokens" fill="#8884d8" name="Tokens" />
+                  <CartesianGrid strokeDasharray="3 3" stroke="#333331" />
+                  <XAxis dataKey="name" angle={-45} textAnchor="end" height={80} interval={0} stroke="#888884" tick={{ fill: '#888884', fontSize: 11 }} />
+                  <YAxis stroke="#888884" tick={{ fill: '#888884', fontSize: 11 }} /><Tooltip contentStyle={{ background: '#1C1C1B', border: '1px solid #333331', borderRadius: '8px', color: '#F5F5F0' }} formatter={(v, n) => [formatNumber(Number(v)), n]} />
+                  <Bar dataKey="tokens" fill="#E8353C" name="Tokens" radius={[4, 4, 0, 0]} />
                 </BarChart>
               </ResponsiveContainer>
             )}
@@ -399,8 +403,8 @@ function OverviewView({
         </div>
 
         {/* Cost pie */}
-        <div className="bg-card border border-border rounded-lg p-6">
-          <h2 className="text-xl font-semibold mb-4">{t('costDistributionByModel')}</h2>
+        <div className="bg-[#1C1C1B] border border-[#333331] rounded-[8px] p-6">
+          <h2 className="text-lg font-bold text-[#F5F5F0] mb-4">{t('costDistributionByModel')}</h2>
           <div className="h-64">
             {pieData.length === 0 ? (
               <div className="h-full flex items-center justify-center text-muted-foreground text-sm">{t('noCostData')}</div>
@@ -410,7 +414,7 @@ function OverviewView({
                   <Pie data={pieData} cx="50%" cy="50%" innerRadius={40} outerRadius={80} paddingAngle={5} dataKey="value">
                     {pieData.map((_, i) => <Cell key={i} fill={COLORS[i % COLORS.length]} />)}
                   </Pie>
-                  <Tooltip formatter={(v) => formatCost(Number(v))} /><Legend />
+                  <Tooltip contentStyle={{ background: '#1C1C1B', border: '1px solid #333331', borderRadius: '8px', color: '#F5F5F0' }} formatter={(v) => formatCost(Number(v))} /><Legend />
                 </PieChart>
               </ResponsiveContainer>
             )}
@@ -420,22 +424,22 @@ function OverviewView({
 
       {/* Performance insights */}
       {models.length > 0 && (
-        <div className="bg-card border border-border rounded-lg p-6">
-          <h2 className="text-xl font-semibold mb-4">{t('performanceInsights')}</h2>
+        <div className="bg-[#1C1C1B] border border-[#333331] rounded-[8px] p-6">
+          <h2 className="text-lg font-bold text-[#F5F5F0] mb-4">{t('performanceInsights')}</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
-            <div className="bg-secondary rounded-lg p-4">
-              <div className="text-xs text-muted-foreground mb-1">{t('mostEfficientModel')}</div>
-              <div className="text-lg font-bold text-green-500">{mostEfficient ? getModelDisplayName(mostEfficient[0]) : '-'}</div>
-              {mostEfficient && <div className="text-xs text-muted-foreground">${(efficientCostPerToken * 1000).toFixed(4)}/1K tokens</div>}
+            <div className="bg-[#0D0D0C] border border-[#333331] rounded-[6px] p-4">
+              <div className="text-[10px] font-semibold text-[#888884] uppercase tracking-wider mb-1">{t('mostEfficientModel')}</div>
+              <div className="text-lg font-bold text-[#4ADE80]">{mostEfficient ? getModelDisplayName(mostEfficient[0]) : '-'}</div>
+              {mostEfficient && <div className="text-xs text-[#888884]">${(efficientCostPerToken * 1000).toFixed(4)}/1K tokens</div>}
             </div>
-            <div className="bg-secondary rounded-lg p-4">
-              <div className="text-xs text-muted-foreground mb-1">{t('avgTokensPerRequest')}</div>
-              <div className="text-lg font-bold text-foreground">{formatNumber(stats.summary.avgTokensPerRequest)}</div>
+            <div className="bg-[#0D0D0C] border border-[#333331] rounded-[6px] p-4">
+              <div className="text-[10px] font-semibold text-[#888884] uppercase tracking-wider mb-1">{t('avgTokensPerRequest')}</div>
+              <div className="text-lg font-bold text-[#F5F5F0]">{formatNumber(stats.summary.avgTokensPerRequest)}</div>
             </div>
-            <div className="bg-secondary rounded-lg p-4">
-              <div className="text-xs text-muted-foreground mb-1">{t('optimizationPotential')}</div>
-              <div className="text-lg font-bold text-orange-500">{formatCost(potentialSavings)}</div>
-              <div className="text-xs text-muted-foreground">{stats.summary.totalCost > 0 ? ((potentialSavings / stats.summary.totalCost) * 100).toFixed(1) : '0'}% {t('savingsPossible')}</div>
+            <div className="bg-[#0D0D0C] border border-[#333331] rounded-[6px] p-4">
+              <div className="text-[10px] font-semibold text-[#888884] uppercase tracking-wider mb-1">{t('optimizationPotential')}</div>
+              <div className="text-lg font-bold text-[#FBBF24]">{formatCost(potentialSavings)}</div>
+              <div className="text-xs text-[#888884]">{stats.summary.totalCost > 0 ? ((potentialSavings / stats.summary.totalCost) * 100).toFixed(1) : '0'}% {t('savingsPossible')}</div>
             </div>
           </div>
           {/* Model efficiency bars */}
@@ -445,13 +449,13 @@ function OverviewView({
               const maxCostPer1k = Math.max(...modelData.map(d => d.cost / Math.max(1, d.tokens) * 1000), 0.0001)
               return (
                 <div key={m.fullName} className="flex items-center text-sm">
-                  <div className="w-32 truncate text-muted-foreground">{m.name}</div>
+                  <div className="w-32 truncate text-[#888884]">{m.name}</div>
                   <div className="flex-1 mx-3">
-                    <div className="w-full bg-secondary rounded-full h-2">
-                      <div className="bg-green-500 h-2 rounded-full" style={{ width: `${(costPer1k / maxCostPer1k) * 100}%` }} />
+                    <div className="w-full bg-[#252524] rounded-full h-2">
+                      <div className="bg-[#4ADE80] h-2 rounded-full" style={{ width: `${(costPer1k / maxCostPer1k) * 100}%` }} />
                     </div>
                   </div>
-                  <div className="w-20 text-right text-xs text-muted-foreground">${costPer1k.toFixed(4)}/1K</div>
+                  <div className="w-20 text-right text-xs text-[#888884]">${costPer1k.toFixed(4)}/1K</div>
                 </div>
               )
             })}
@@ -460,7 +464,7 @@ function OverviewView({
       )}
 
       {/* Export */}
-      <div className="bg-card border border-border rounded-lg p-6">
+      <div className="bg-[#1C1C1B] border border-[#333331] rounded-[8px] p-6">
         <div className="flex items-center justify-between">
           <div>
             <h2 className="text-lg font-semibold">{t('exportData')}</h2>
