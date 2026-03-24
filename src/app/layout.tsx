@@ -10,6 +10,7 @@ import './globals.css'
 
 const inter = Inter({
   subsets: ['latin'],
+  weight: ['400', '600', '700', '800'],
   variable: '--font-sans',
   display: 'swap',
 })
@@ -100,7 +101,7 @@ export default async function RootLayout({
         <script
           nonce={nonce}
           dangerouslySetInnerHTML={{
-            __html: `(function(){try{var t=localStorage.getItem('theme')||'void';var light=['light','paper'];if(light.indexOf(t)===-1)document.documentElement.classList.add('dark')}catch(e){}})()`,
+            __html: `(function(){try{var t=localStorage.getItem('theme')||'manager-os';var light=['light','paper'];if(light.indexOf(t)===-1)document.documentElement.classList.add('dark')}catch(e){}})()`,
           }}
         />
       </head>
@@ -108,7 +109,7 @@ export default async function RootLayout({
         <NextIntlClientProvider messages={messages}>
           <ThemeProvider
             attribute="class"
-            defaultTheme="void"
+            defaultTheme="manager-os"
             themes={THEME_IDS}
             enableSystem={false}
             disableTransitionOnChange

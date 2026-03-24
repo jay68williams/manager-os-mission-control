@@ -7,6 +7,7 @@ export interface ThemeMeta {
 }
 
 export const THEMES: ThemeMeta[] = [
+  { id: 'manager-os', label: 'Manager OS', group: 'dark', swatch: '#E8353C' },
   { id: 'void', label: 'Void', group: 'dark', swatch: '#22D3EE', background: 'void-bg' },
   { id: 'midnight-blue', label: 'Midnight Blue', group: 'dark', swatch: '#3B82F6' },
   { id: 'synthwave', label: 'Synthwave', group: 'dark', swatch: '#F472B6', background: 'synthwave-bg' },

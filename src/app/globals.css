@@ -434,8 +434,72 @@
 /* ═══════════════════════════════════════════════════════════════════════
  * Theme overrides — MUST come after @layer base so they win the cascade.
  * Each class is applied to <html> by next-themes alongside the "dark" class.
- * .void is empty because .dark already defines the void palette.
  * ═══════════════════════════════════════════════════════════════════════ */
+
+/* ── Manager OS — warm near-black operational theme ── */
+.manager-os {
+  /* Core palette mapped to the existing variable system */
+  --background: 60 4% 7%;          /* #111110 */
+  --foreground: 45 10% 94%;        /* #F0EFEC */
+  --card: 60 3% 11%;               /* #1C1C1B */
+  --card-foreground: 45 10% 94%;   /* #F0EFEC */
+  --popover: 60 2% 14%;            /* #252524 */
+  --popover-foreground: 45 10% 94%;
+  --primary: 358 78% 56%;          /* #E8353C — brand red */
+  --primary-foreground: 0 0% 100%;
+  --secondary: 60 2% 14%;          /* #252524 */
+  --secondary-foreground: 45 10% 94%;
+  --muted: 60 1% 18%;              /* #2E2E2C */
+  --muted-foreground: 45 2% 53%;   /* #888884 */
+  --accent: 60 2% 14%;             /* #252524 */
+  --accent-foreground: 45 10% 94%;
+  --destructive: 358 78% 56%;      /* #E8353C */
+  --destructive-foreground: 0 0% 98%;
+  --border: 60 1% 20%;             /* #333331 */
+  --input: 60 1% 20%;              /* #333331 */
+  --ring: 358 78% 56%;             /* #E8353C */
+
+  /* Void accent colors — mapped to Manager OS palette */
+  --void-cyan: 358 78% 56%;        /* brand red replaces cyan as primary accent */
+  --void-mint: 145 61% 30%;        /* #1E7B3A — healthy green */
+  --void-amber: 37 90% 44%;        /* #D4830A — warning amber */
+  --void-violet: 358 78% 56%;
+  --void-crimson: 358 78% 56%;
+
+  /* Status */
+  --success: 145 61% 30%;          /* #1E7B3A */
+  --success-foreground: 0 0% 98%;
+  --warning: 37 90% 44%;           /* #D4830A */
+  --warning-foreground: 0 0% 98%;
+  --info: 358 78% 56%;
+  --info-foreground: 0 0% 98%;
+
+  /* Surface hierarchy — warm near-black progression */
+  --surface-0: 60 4% 7%;           /* #111110 — bg-base */
+  --surface-1: 60 3% 11%;          /* #1C1C1B */
+  --surface-2: 60 2% 14%;          /* #252524 */
+  --surface-3: 60 1% 18%;          /* #2E2E2C */
+
+  /* ── Manager OS Design Brief tokens (direct) ── */
+  --brand-red: #E8353C;
+  --bg-base: #111110;
+  --mos-surface-1: #1C1C1B;
+  --mos-surface-2: #252524;
+  --mos-surface-3: #2E2E2C;
+  --border-subtle: #333331;
+  --border-mid: #444441;
+  --text-primary: #F0EFEC;
+  --text-secondary: #888884;
+  --text-tertiary: #555552;
+  --status-healthy: #1E7B3A;
+  --status-warning: #D4830A;
+  --status-critical: #E8353C;
+  --status-inactive: #3A3A38;
+  --tag-bg: #252524;
+  --tag-text: #888884;
+  --header-bg: #0D0D0C;
+  --log-bg: #0A0A09;
+}
 
 .void {
   /* Inherits from .dark — no overrides needed */
