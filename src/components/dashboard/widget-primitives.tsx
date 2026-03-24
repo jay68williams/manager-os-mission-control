@@ -97,23 +97,23 @@ export function MetricCard({ label, value, total, subtitle, icon, color }: {
   color: 'blue' | 'green' | 'purple' | 'red'
 }) {
   const colorMap = {
-    blue: 'bg-blue-500/10 text-blue-400 border-blue-500/20',
-    green: 'bg-green-500/10 text-green-400 border-green-500/20',
-    purple: 'bg-purple-500/10 text-purple-400 border-purple-500/20',
-    red: 'bg-red-500/10 text-red-400 border-red-500/20',
+    blue: 'bg-[#1C1C1B] text-[#F0EFEC] border-[#333331]',
+    green: 'bg-[#1C1C1B] text-[#4ADE80] border-[#1E7B3A]/30',
+    purple: 'bg-[#1C1C1B] text-[#F0EFEC] border-[#333331]',
+    red: 'bg-[#1C1C1B] text-[#E8353C] border-[#E8353C]/20',
   }
 
   return (
-    <div className={`rounded-lg border p-3.5 ${colorMap[color]}`}>
+    <div className={`rounded-xl border p-4 ${colorMap[color]}`} style={{ borderWidth: '0.5px' }}>
       <div className="flex items-center justify-between mb-2">
-        <span className="text-xs font-medium opacity-80">{label}</span>
-        <div className="w-5 h-5 opacity-60">{icon}</div>
+        <span className="text-[10px] font-semibold uppercase tracking-[0.08em] text-[#888884]">{label}</span>
+        <div className="w-5 h-5 text-[#555552]">{icon}</div>
       </div>
       <div className="flex items-baseline gap-1">
-        <span className="text-2xl font-bold font-mono-tight">{value}</span>
-        {total != null && <span className="text-xs opacity-50 font-mono-tight">/ {total}</span>}
+        <span className="text-[32px] font-extrabold leading-none">{value}</span>
+        {total != null && <span className="text-xs text-[#555552] font-mono-tight">/ {total}</span>}
       </div>
-      {subtitle && <div className="text-2xs opacity-50 font-mono-tight mt-0.5">{subtitle}</div>}
+      {subtitle && <div className="text-[11px] text-[#888884] mt-1">{subtitle}</div>}
     </div>
   )
 }
@@ -124,14 +124,14 @@ export function SignalPill({ label, value, tone }: {
   tone: 'success' | 'warning' | 'info'
 }) {
   const toneClass = tone === 'success'
-    ? 'bg-green-500/15 border-green-500/30 text-green-300'
+    ? 'bg-[#1E7B3A]/15 border-[#1E7B3A]/30 text-[#4ADE80]'
     : tone === 'warning'
-      ? 'bg-amber-500/15 border-amber-500/30 text-amber-300'
-      : 'bg-blue-500/15 border-blue-500/30 text-blue-300'
+      ? 'bg-[#D4830A]/15 border-[#D4830A]/30 text-[#FBBF24]'
+      : 'bg-[#252524] border-[#333331] text-[#F0EFEC]'
 
   return (
-    <div className={`rounded-lg border px-2.5 py-2 ${toneClass}`}>
-      <div className="text-2xs uppercase tracking-wide opacity-70">{label}</div>
+    <div className={`rounded-lg border px-2.5 py-2 ${toneClass}`} style={{ borderWidth: '0.5px' }}>
+      <div className="text-[10px] uppercase tracking-[0.08em] font-semibold text-[#888884]">{label}</div>
       <div className="text-xs font-semibold font-mono-tight truncate">{value}</div>
     </div>
   )
@@ -143,18 +143,18 @@ export function HealthRow({ label, value, status, bar }: {
   status: 'good' | 'warn' | 'bad'
   bar?: number
 }) {
-  const statusColor = status === 'good' ? 'text-green-400' : status === 'warn' ? 'text-amber-400' : 'text-red-400'
+  const statusColor = status === 'good' ? 'text-[#1E7B3A]' : status === 'warn' ? 'text-[#D4830A]' : 'text-[#E8353C]'
 
   return (
     <div className="space-y-1">
       <div className="flex items-center justify-between">
-        <span className="text-xs text-muted-foreground">{label}</span>
+        <span className="text-xs text-[#888884]">{label}</span>
         <span className={`text-xs font-medium font-mono-tight ${statusColor}`}>{value}</span>
       </div>
       {bar != null && (
-        <div className="h-1 rounded-full bg-secondary overflow-hidden">
+        <div className="h-1 rounded-full bg-[#252524] overflow-hidden">
           <div
-            className={`h-full rounded-full transition-all duration-500 ${bar > 90 ? 'bg-red-500' : bar > 70 ? 'bg-amber-500' : 'bg-green-500'}`}
+            className={`h-full rounded-full transition-all duration-500 ${bar > 90 ? 'bg-[#E8353C]' : bar > 70 ? 'bg-[#D4830A]' : 'bg-[#1E7B3A]'}`}
             style={{ width: `${Math.min(bar, 100)}%` }}
           />
         </div>
@@ -208,14 +208,15 @@ export function QuickAction({ label, desc, tab, icon, onNavigate }: {
     <Button
       variant="outline"
       onClick={() => onNavigate(tab)}
-      className="flex items-center gap-3 p-3 h-auto rounded-lg hover:border-primary/30 hover:bg-primary/5 text-left group justify-start"
+      className="flex items-center gap-3 p-3 h-auto rounded-xl hover:border-[#E8353C]/30 hover:bg-[#1C1C1B] text-left group justify-start border-[#333331] bg-[#1C1C1B]"
+      style={{ borderWidth: '0.5px' }}
     >
-      <div className="w-8 h-8 rounded-md bg-secondary flex items-center justify-center shrink-0 group-hover:bg-primary/10 transition-smooth">
-        <div className="w-4 h-4 text-muted-foreground group-hover:text-primary transition-smooth">{icon}</div>
+      <div className="w-8 h-8 rounded-lg bg-[#252524] flex items-center justify-center shrink-0 group-hover:bg-[#E8353C]/10 transition-all duration-150">
+        <div className="w-4 h-4 text-[#555552] group-hover:text-[#E8353C] transition-colors duration-150">{icon}</div>
       </div>
       <div>
-        <div className="text-xs font-medium text-foreground">{label}</div>
-        <div className="text-2xs text-muted-foreground">{desc}</div>
+        <div className="text-xs font-medium text-[#F0EFEC]">{label}</div>
+        <div className="text-[11px] text-[#888884]">{desc}</div>
       </div>
     </Button>
   )

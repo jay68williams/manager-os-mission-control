@@ -497,7 +497,7 @@ function ContentRouter({ tab }: { tab: string }) {
         <>
           <Dashboard />
           {!isLocal && (
-            <div className="mt-4 mx-4 mb-4 rounded-lg border border-border bg-card overflow-hidden">
+            <div className="mt-4 mx-4 mb-4 rounded-xl border border-[#333331] bg-[#1C1C1B] overflow-hidden" style={{ borderWidth: '0.5px' }}>
               <AgentCommsPanel />
             </div>
           )}

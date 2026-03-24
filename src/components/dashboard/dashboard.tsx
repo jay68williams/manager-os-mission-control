@@ -5,6 +5,7 @@ import { useMissionControl } from '@/store'
 import { useNavigateToPanel } from '@/lib/navigation'
 import { useSmartPoll } from '@/lib/use-smart-poll'
 import { SignalPill, getLocalOsStatus, getProviderHealth, getMcHealth } from './widget-primitives'
+import { PillTag } from '@/components/ui/pill-tag'
 import { OnboardingChecklistWidget } from './widgets/onboarding-checklist-widget'
 import { EmptyStateLaunchpad } from './empty-state-launchpad'
 import { WidgetGrid } from './widget-grid'
@@ -264,14 +265,14 @@ export function Dashboard() {
   return (
     <div className="p-5 space-y-4">
       <OnboardingChecklistWidget />
-      <section className="rounded-xl border border-border bg-card p-4">
-        <div className="flex flex-col gap-2 lg:flex-row lg:items-center lg:justify-between">
+      <section className="rounded-xl border border-[#333331] bg-[#1C1C1B] p-5" style={{ borderWidth: '0.5px' }}>
+        <div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
           <div>
-            <div className="text-2xs uppercase tracking-[0.12em] text-muted-foreground">Overview</div>
-            <h2 className="text-lg font-semibold text-foreground">
+            <PillTag className="mb-2">OVERVIEW</PillTag>
+            <h2 className="text-[22px] font-extrabold text-[#F0EFEC] tracking-tight">
               {isLocal ? 'Local Agent Runtime' : 'Gateway Control Plane'}
             </h2>
-            <p className="text-xs text-muted-foreground">
+            <p className="text-[13px] text-[#888884] mt-1">
               {isLocal
                 ? 'Unified visibility for Claude, Codex & Hermes local sessions, host pressure, and operator continuity.'
                 : 'Gateway-first health, session routing, queue pressure, and incident response signals.'}
