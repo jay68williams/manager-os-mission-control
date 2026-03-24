@@ -15,6 +15,7 @@ import { MarkdownRenderer } from '@/components/markdown-renderer'
 import { Button } from '@/components/ui/button'
 import { ProjectManagerModal } from '@/components/modals/project-manager-modal'
 import { SessionMessage, shouldShowTimestamp, type SessionTranscriptMessage } from '@/components/chat/session-message'
+import { PillTag } from '@/components/ui/pill-tag'
 
 const log = createClientLogger('TaskBoard')
 
@@ -87,13 +88,13 @@ interface MentionOption {
 }
 
 const STATUS_COLUMN_KEYS = [
-  { key: 'inbox', titleKey: 'colInbox', color: 'bg-secondary text-foreground' },
-  { key: 'assigned', titleKey: 'colAssigned', color: 'bg-blue-500/20 text-blue-400' },
-  { key: 'awaiting_owner', titleKey: 'colAwaitingOwner', color: 'bg-orange-500/20 text-orange-400' },
-  { key: 'in_progress', titleKey: 'colInProgress', color: 'bg-yellow-500/20 text-yellow-400' },
-  { key: 'review', titleKey: 'colReview', color: 'bg-purple-500/20 text-purple-400' },
-  { key: 'quality_review', titleKey: 'colQualityReview', color: 'bg-indigo-500/20 text-indigo-400' },
-  { key: 'done', titleKey: 'colDone', color: 'bg-green-500/20 text-green-400' },
+  { key: 'inbox', titleKey: 'colInbox', color: 'bg-[#0D0D0C] text-[#888884]' },
+  { key: 'assigned', titleKey: 'colAssigned', color: 'bg-[#0D0D0C] text-[#888884]' },
+  { key: 'awaiting_owner', titleKey: 'colAwaitingOwner', color: 'bg-[#0D0D0C] text-[#D4830A]' },
+  { key: 'in_progress', titleKey: 'colInProgress', color: 'bg-[#0D0D0C] text-[#E8353C]' },
+  { key: 'review', titleKey: 'colReview', color: 'bg-[#0D0D0C] text-[#888884]' },
+  { key: 'quality_review', titleKey: 'colQualityReview', color: 'bg-[#0D0D0C] text-[#888884]' },
+  { key: 'done', titleKey: 'colDone', color: 'bg-[#0D0D0C] text-[#1E7B3A]' },
 ]
 
 const AWAITING_OWNER_KEYWORDS = [
@@ -155,10 +156,10 @@ function useAgentSessions(agentName: string | undefined) {
 }
 
 const priorityColors: Record<string, string> = {
-  low: 'border-l-green-500',
-  medium: 'border-l-yellow-500',
-  high: 'border-l-orange-500',
-  critical: 'border-l-red-500',
+  low: 'border-l-[#1E7B3A]',
+  medium: 'border-l-[#D4830A]',
+  high: 'border-l-[#E8353C]',
+  critical: 'border-l-[#E8353C]',
 }
 
 function useMentionTargets() {
@@ -772,19 +773,22 @@ export function TaskBoardPanel() {
   return (
     <div className="h-full flex flex-col">
       {/* Header */}
-      <div className="flex justify-between items-center p-4 border-b border-border flex-shrink-0">
+      <div className="flex justify-between items-center p-4 border-b border-[#333331] flex-shrink-0" style={{ borderBottomWidth: '0.5px' }}>
         <div className="flex items-center gap-3">
-          <h2 className="text-xl font-bold text-foreground">{t('title')}</h2>
+          <div>
+            <PillTag className="mb-1.5">TASK BOARD</PillTag>
+            <h2 className="text-xl font-extrabold text-[#F0EFEC]">{t('title')}</h2>
+          </div>
           {gnapStatus?.enabled && (
             <button
               onClick={handleGnapSync}
               disabled={gnapSyncing}
-              className="inline-flex items-center gap-1.5 px-2 py-0.5 text-xs font-medium rounded-full bg-emerald-500/15 text-emerald-400 hover:bg-emerald-500/25 transition-colors disabled:opacity-50"
+              className="inline-flex items-center gap-1.5 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-[0.08em] rounded-[6px] bg-[#1E7B3A]/15 text-[#4ADE80] hover:bg-[#1E7B3A]/25 transition-colors disabled:opacity-50"
               title={gnapStatus.lastSync ? `Last sync: ${gnapStatus.lastSync}` : 'Click to sync'}
             >
               GNAP
               {gnapStatus.taskCount != null && (
-                <span className="text-emerald-400/70">{gnapStatus.taskCount}</span>
+                <span className="text-[#4ADE80]/70">{gnapStatus.taskCount}</span>
               )}
               {gnapSyncing && (
                 <svg className="w-3 h-3 animate-spin" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="2">
@@ -797,7 +801,8 @@ export function TaskBoardPanel() {
             <select
               value={projectFilter}
               onChange={(e) => setProjectFilter(e.target.value)}
-              className="h-9 px-3 pr-8 bg-surface-1 text-foreground border border-border rounded-md text-sm appearance-none cursor-pointer focus:outline-none focus:ring-2 focus:ring-primary/50"
+              className="h-9 px-3 pr-8 bg-[#1C1C1B] text-[#F0EFEC] border border-[#333331] rounded-lg text-sm appearance-none cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#E8353C]/50"
+              style={{ borderWidth: '0.5px' }}
             >
               <option value="all">{t('allProjects')}</option>
               {projects.map((project) => (
@@ -806,24 +811,24 @@ export function TaskBoardPanel() {
                 </option>
               ))}
             </select>
-            <svg className="absolute right-2.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-muted-foreground pointer-events-none" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <svg className="absolute right-2.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-[#555552] pointer-events-none" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <path d="M4 6l4 4 4-4" />
             </svg>
           </div>
         </div>
         <div className="flex gap-2">
-          <Button variant="outline" onClick={() => setShowProjectManager(true)}>
+          <Button variant="outline" onClick={() => setShowProjectManager(true)} className="border-[#333331] bg-[#1C1C1B] text-[#F0EFEC] hover:border-[#444441]" style={{ borderWidth: '0.5px' }}>
             {t('projects')}
           </Button>
           {!isLocal && (
-            <Button variant="outline" onClick={() => setShowSpawnForm(!showSpawnForm)}>
+            <Button variant="outline" onClick={() => setShowSpawnForm(!showSpawnForm)} className="border-[#333331] bg-[#1C1C1B] text-[#F0EFEC] hover:border-[#444441]" style={{ borderWidth: '0.5px' }}>
               {showSpawnForm ? t('close') : t('spawnSubAgent')}
             </Button>
           )}
-          <Button onClick={() => setShowCreateModal(true)}>
+          <Button onClick={() => setShowCreateModal(true)} className="bg-[#E8353C] text-white font-bold hover:bg-[#D42E35] rounded-lg">
             {t('newTask')}
           </Button>
-          <Button variant="ghost" size="icon-sm" onClick={fetchData} title={t('refresh')}>
+          <Button variant="ghost" size="icon-sm" onClick={fetchData} title={t('refresh')} className="text-[#888884] hover:text-[#F0EFEC]">
             <svg className="w-4 h-4" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
               <path d="M1.5 8a6.5 6.5 0 0 1 11.25-4.5M14.5 8a6.5 6.5 0 0 1-11.25 4.5" />
               <path d="M13.5 2v3h-3M2.5 14v-3h3" />
@@ -932,16 +937,17 @@ export function TaskBoardPanel() {
             key={column.key}
             role="region"
             aria-label={t('columnAriaLabel', { title: column.title, count: tasksByStatus[column.key]?.length || 0 })}
-            className="flex-1 min-w-80 min-h-0 bg-surface-0 border border-border/60 rounded-xl flex flex-col transition-colors duration-200 [&.drag-over]:border-primary/40 [&.drag-over]:bg-primary/[0.02]"
+            className="flex-1 min-w-80 min-h-0 bg-[#0D0D0C] border border-[#333331] rounded-xl flex flex-col transition-colors duration-150 [&.drag-over]:border-[#E8353C]/40 [&.drag-over]:bg-[#E8353C]/[0.02]"
+            style={{ borderWidth: '0.5px' }}
             onDragEnter={(e) => handleDragEnter(e, column.key)}
             onDragLeave={handleDragLeave}
             onDragOver={handleDragOver}
             onDrop={(e) => handleDrop(e, column.key)}
           >
             {/* Column Header */}
-            <div className={`${column.color} px-4 py-3 rounded-t-xl flex justify-between items-center border-b border-border/30`}>
-              <h3 className="font-semibold text-sm tracking-wide">{column.title}</h3>
-              <span className="text-xs font-mono bg-white/10 px-2 py-0.5 rounded-md min-w-[1.75rem] text-center">
+            <div className={`${column.color} px-4 py-3 rounded-t-xl flex justify-between items-center border-b border-[#333331]/50`}>
+              <h3 className="font-semibold text-[10px] uppercase tracking-[0.08em]">{column.title}</h3>
+              <span className="text-[10px] font-mono bg-[#252524] text-[#888884] px-2 py-0.5 rounded-[6px] min-w-[1.75rem] text-center">
                 {tasksByStatus[column.key]?.length || 0}
               </span>
             </div>
@@ -967,9 +973,12 @@ export function TaskBoardPanel() {
                       updateTaskUrl(task.id)
                     }
                   }}
-                  className={`group bg-card rounded-lg p-3 cursor-pointer border border-border/40 shadow-sm hover:shadow-md hover:shadow-black/10 hover:border-border/70 transition-all duration-200 ease-out border-l-4 ${priorityColors[task.priority]} ${
-                    draggedTask?.id === task.id ? 'opacity-40 scale-[0.97] rotate-1' : ''
-                  } focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background`}
+                  className={`group bg-[#1C1C1B] rounded-xl p-3 cursor-pointer border border-[#333331] hover:border-[#444441] transition-all duration-150 border-l-4 ${priorityColors[task.priority]} ${
+                    task.status === 'in_progress' ? 'border-t-2 border-t-[#E8353C]' : ''
+                  } ${
+                    draggedTask?.id === task.id ? 'opacity-40 scale-[0.97]' : ''
+                  } focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#E8353C] focus-visible:ring-offset-2 focus-visible:ring-offset-[#0D0D0C]`}
+                  style={{ borderWidth: '0.5px', borderLeftWidth: '4px' }}
                 >
                   {/* Drag handle + Title row */}
                   <div className="flex items-start gap-2 mb-2">

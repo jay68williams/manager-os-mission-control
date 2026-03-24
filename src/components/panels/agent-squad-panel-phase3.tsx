@@ -7,6 +7,7 @@ import { Loader } from '@/components/ui/loader'
 import { useSmartPoll } from '@/lib/use-smart-poll'
 import { createClientLogger } from '@/lib/client-logger'
 import { AgentAvatar } from '@/components/ui/agent-avatar'
+import { PillTag } from '@/components/ui/pill-tag'
 import {
   OverviewTab,
   SoulTab,
@@ -48,17 +49,17 @@ interface SoulTemplate {
 }
 
 const statusColors: Record<string, string> = {
-  offline: 'bg-gray-500',
-  idle: 'bg-green-500',
-  busy: 'bg-yellow-500',
-  error: 'bg-red-500',
+  offline: 'bg-[#3A3A38]',
+  idle: 'bg-[#1E7B3A]',
+  busy: 'bg-[#D4830A]',
+  error: 'bg-[#E8353C]',
 }
 
 const statusBadgeStyles: Record<string, string> = {
-  offline: 'bg-slate-500/15 text-slate-300 border-slate-500/30',
-  idle: 'bg-emerald-500/15 text-emerald-300 border-emerald-500/30',
-  busy: 'bg-amber-500/15 text-amber-300 border-amber-500/30',
-  error: 'bg-rose-500/15 text-rose-300 border-rose-500/30',
+  offline: 'bg-[#252524] text-[#888884] border-[#333331]',
+  idle: 'bg-[#1E7B3A]/15 text-[#4ADE80] border-[#1E7B3A]/30',
+  busy: 'bg-[#D4830A]/15 text-[#FBBF24] border-[#D4830A]/30',
+  error: 'bg-[#E8353C]/15 text-[#E8353C] border-[#E8353C]/30',
 }
 
 const statusIcons: Record<string, string> = {
@@ -69,27 +70,23 @@ const statusIcons: Record<string, string> = {
 }
 
 const defaultCardStyle = {
-  edge: 'from-slate-400/60 to-slate-600/30',
-  glow: 'from-slate-500/10 via-transparent to-transparent',
-  dot: 'bg-slate-400',
+  edge: 'bg-[#333331]',
+  dot: 'bg-[#3A3A38]',
 }
 
-const statusCardStyles: Record<string, { edge: string; glow: string; dot: string }> = {
+const statusCardStyles: Record<string, { edge: string; dot: string }> = {
   offline: defaultCardStyle,
   idle: {
-    edge: 'from-emerald-300/80 to-emerald-600/30',
-    glow: 'from-emerald-400/15 via-transparent to-transparent',
-    dot: 'bg-emerald-300',
+    edge: 'bg-[#1E7B3A]',
+    dot: 'bg-[#4ADE80]',
   },
   busy: {
-    edge: 'from-amber-300/80 to-amber-600/30',
-    glow: 'from-amber-400/15 via-transparent to-transparent',
-    dot: 'bg-amber-300',
+    edge: 'bg-[#D4830A]',
+    dot: 'bg-[#FBBF24]',
   },
   error: {
-    edge: 'from-rose-300/80 to-rose-600/30',
-    glow: 'from-rose-400/15 via-transparent to-transparent',
-    dot: 'bg-rose-300',
+    edge: 'bg-[#E8353C]',
+    dot: 'bg-[#E8353C]',
   },
 }
 
@@ -307,24 +304,27 @@ export function AgentSquadPanelPhase3() {
   return (
     <div className="h-full flex flex-col">
       {/* Header */}
-      <div className="flex justify-between items-center p-4 border-b border-border flex-shrink-0">
+      <div className="flex justify-between items-center p-4 border-b border-[#333331] flex-shrink-0" style={{ borderBottomWidth: '0.5px' }}>
         <div className="flex items-center gap-4">
-          <h2 className="text-xl font-bold text-foreground">{t('title')}</h2>
+          <div>
+            <PillTag className="mb-1.5">AGENT FLEET</PillTag>
+            <h2 className="text-xl font-extrabold text-[#F0EFEC]">{t('title')}</h2>
+          </div>
           
           {/* Status Summary */}
           <div className="flex gap-2 text-sm">
             {Object.entries(statusCounts).map(([status, count]) => (
               <div key={status} className="flex items-center gap-1">
                 <div className={`w-2 h-2 rounded-full ${statusColors[status]}`}></div>
-                <span className="text-muted-foreground">{count}</span>
+                <span className="text-[#888884]">{count}</span>
               </div>
             ))}
           </div>
 
           {/* Active Heartbeats Indicator */}
           <div className="flex items-center gap-1">
-            <div className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse"></div>
-            <span className="text-sm text-muted-foreground">
+            <div className="w-2 h-2 rounded-full bg-[#E8353C] animate-pulse"></div>
+            <span className="text-sm text-[#888884]">
               {t('activeHeartbeats', { count: agents.filter(hasRecentHeartbeat).length })}
             </span>
           </div>
@@ -335,6 +335,7 @@ export function AgentSquadPanelPhase3() {
             onClick={() => setAutoRefresh(!autoRefresh)}
             variant={autoRefresh ? 'success' : 'secondary'}
             size="sm"
+            className={autoRefresh ? 'bg-[#1E7B3A]/20 text-[#4ADE80] border border-[#1E7B3A]/30 hover:bg-[#1E7B3A]/30' : ''}
           >
             {autoRefresh ? t('live') : t('manual')}
           </Button>
@@ -342,7 +343,7 @@ export function AgentSquadPanelPhase3() {
             onClick={() => syncFromConfig()}
             disabled={syncing}
             size="sm"
-            className="bg-cyan-500/20 text-cyan-400 border border-cyan-500/30 hover:bg-cyan-500/30"
+            className="bg-[#252524] text-[#F0EFEC] border border-[#333331] hover:bg-[#2E2E2C] hover:border-[#444441]"
           >
             {syncing ? t('syncing') : t('syncConfig')}
           </Button>
@@ -350,7 +351,7 @@ export function AgentSquadPanelPhase3() {
             onClick={() => syncFromConfig('local')}
             disabled={syncing}
             size="sm"
-            className="bg-violet-500/20 text-violet-400 border border-violet-500/30 hover:bg-violet-500/30"
+            className="bg-[#252524] text-[#F0EFEC] border border-[#333331] hover:bg-[#2E2E2C] hover:border-[#444441]"
           >
             {t('syncLocal')}
           </Button>
@@ -364,6 +365,7 @@ export function AgentSquadPanelPhase3() {
           <Button
             onClick={() => setShowCreateModal(true)}
             size="sm"
+            className="bg-[#E8353C] text-white font-bold hover:bg-[#D42E35] rounded-lg"
           >
             {t('addAgent')}
           </Button>
@@ -371,6 +373,7 @@ export function AgentSquadPanelPhase3() {
             onClick={fetchAgents}
             variant="secondary"
             size="sm"
+            className="bg-[#252524] text-[#888884] border border-[#333331] hover:text-[#F0EFEC]"
           >
             {t('refresh')}
           </Button>
@@ -419,15 +422,17 @@ export function AgentSquadPanelPhase3() {
             {agents.map(agent => {
               const modelName = formatModelName(agent.config)
               const taskStatsLine = buildTaskStatParts(agent.taskStats)
+              const isActive = agent.status === 'idle' || agent.status === 'busy'
 
               return (
                 <div
                   key={agent.id}
-                  className="group relative overflow-hidden rounded-xl border border-border/70 bg-card p-4 transition-all duration-200 ease-out hover:-translate-y-0.5 hover:border-border hover:shadow-lg cursor-pointer"
+                  className="group relative overflow-hidden rounded-xl border border-[#333331] bg-[#1C1C1B] p-4 transition-all duration-150 hover:border-[#444441] cursor-pointer"
+                  style={{ borderWidth: '0.5px' }}
                   onClick={() => setSelectedAgent(agent)}
                 >
-                  <div className={`pointer-events-none absolute inset-y-0 left-0 w-1 bg-gradient-to-b ${(statusCardStyles[agent.status] || defaultCardStyle).edge}`} />
-                  {agent.hidden ? <div className="absolute top-2 right-2 text-2xs text-slate-500">hidden</div> : null}
+                  <div className={`pointer-events-none absolute inset-y-0 left-0 w-[2px] ${(statusCardStyles[agent.status] || defaultCardStyle).edge}`} />
+                  {agent.hidden ? <div className="absolute top-2 right-2 text-2xs text-[#555552]">hidden</div> : null}
 
                   {/* Header: avatar + name + status */}
                   <div className="flex items-start justify-between mb-2">
@@ -435,30 +440,24 @@ export function AgentSquadPanelPhase3() {
                       <AgentAvatar name={agent.name} size="md" />
                       <div className="min-w-0">
                         <div className="flex items-center gap-1.5">
-                          <h3 className="font-semibold text-foreground truncate">{agent.name}</h3>
+                          <h3 className="font-semibold text-[#F0EFEC] truncate">{agent.name}</h3>
                           {(agent as any).source && (agent as any).source !== 'manual' && (
-                            <span className={`text-2xs px-1.5 py-0.5 rounded-full border ${
-                              (agent as any).source === 'local'
-                                ? 'bg-violet-500/15 text-violet-300 border-violet-500/30'
-                                : (agent as any).source === 'gateway'
-                                  ? 'bg-cyan-500/15 text-cyan-300 border-cyan-500/30'
-                                  : 'bg-slate-500/15 text-slate-300 border-slate-500/30'
-                            }`}>
+                            <span className="text-2xs px-1.5 py-0.5 rounded-full border bg-[#252524] text-[#888884] border-[#333331]">
                               {(agent as any).source}
                             </span>
                           )}
                         </div>
-                        <p className="text-xs text-muted-foreground truncate">
-                          {agent.role}{modelName && <> · <span className="font-mono text-muted-foreground/80">{modelName}</span></>}
+                        <p className="text-xs text-[#888884] truncate">
+                          {agent.role}{modelName && <> · <span className="font-mono text-[#555552]">{modelName}</span></>}
                         </p>
                       </div>
                     </div>
 
                     <div className="flex items-center gap-2 shrink-0">
                       {hasRecentHeartbeat(agent) && (
-                        <div className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse" title="Recent heartbeat" />
+                        <div className="w-2 h-2 rounded-full bg-[#E8353C] animate-pulse" title="Recent heartbeat" />
                       )}
-                      <span className={`inline-flex items-center gap-1.5 rounded-full border px-2 py-0.5 text-xs capitalize ${statusBadgeStyles[agent.status]}`}>
+                      <span className={`inline-flex items-center gap-1.5 rounded-[6px] border px-2 py-0.5 text-[10px] font-semibold uppercase tracking-[0.08em] ${statusBadgeStyles[agent.status]}`} style={{ borderWidth: '0.5px' }}>
                         <span className={`h-1.5 w-1.5 rounded-full ${(statusCardStyles[agent.status] || defaultCardStyle).dot}`} />
                         {agent.status}
                       </span>
@@ -467,11 +466,11 @@ export function AgentSquadPanelPhase3() {
 
                   {/* Task stats — inline */}
                   {taskStatsLine && (
-                    <div className="text-xs text-muted-foreground mb-2 pl-0.5">
+                    <div className="text-xs text-[#888884] mb-2 pl-0.5">
                       {taskStatsLine.map((part, i) => (
                         <span key={part.label}>
-                          {i > 0 && <span className="mx-1 text-muted-foreground/40">·</span>}
-                          <span className={part.color || 'text-foreground/80'}>{part.count}</span>
+                          {i > 0 && <span className="mx-1 text-[#555552]">·</span>}
+                          <span className={part.color || 'text-[#F0EFEC]/80'}>{part.count}</span>
                           {' '}{part.label}
                         </span>
                       ))}
@@ -479,8 +478,8 @@ export function AgentSquadPanelPhase3() {
                   )}
 
                   {/* Footer: last seen + actions */}
-                  <div className="flex items-center justify-between mt-2 pt-2 border-t border-border/30">
-                    <span className="text-[11px] text-muted-foreground/70">
+                  <div className="flex items-center justify-between mt-2 pt-2 border-t border-[#333331]/50">
+                    <span className="text-[11px] text-[#555552]">
                       {formatLastSeen(agent.last_seen)}
                     </span>
                     <div className="flex gap-1">
@@ -492,7 +491,7 @@ export function AgentSquadPanelPhase3() {
                           }}
                           size="xs"
                           variant="ghost"
-                          className="h-6 px-2 text-xs text-cyan-300 hover:bg-cyan-500/15 hover:text-cyan-200"
+                          className="h-6 px-2 text-xs text-[#888884] hover:bg-[#E8353C]/10 hover:text-[#E8353C]"
                           title="Wake agent via session"
                         >
                           {t('wake')}
@@ -506,7 +505,7 @@ export function AgentSquadPanelPhase3() {
                           disabled={agent.status === 'idle'}
                           size="xs"
                           variant="ghost"
-                          className="h-6 px-2 text-xs"
+                          className="h-6 px-2 text-xs text-[#888884] hover:text-[#F0EFEC]"
                         >
                           {t('wake')}
                         </Button>
@@ -519,7 +518,7 @@ export function AgentSquadPanelPhase3() {
                         }}
                         size="xs"
                         variant="ghost"
-                        className="h-6 px-2 text-xs text-blue-300 hover:bg-blue-500/15 hover:text-blue-200"
+                        className="h-6 px-2 text-xs text-[#888884] hover:bg-[#E8353C]/10 hover:text-[#E8353C]"
                       >
                         {t('spawn')}
                       </Button>
@@ -530,7 +529,7 @@ export function AgentSquadPanelPhase3() {
                         }}
                         size="xs"
                         variant="ghost"
-                        className="h-6 px-2 text-xs text-slate-400 hover:bg-slate-500/15 hover:text-slate-300"
+                        className="h-6 px-2 text-xs text-[#555552] hover:bg-[#252524] hover:text-[#888884]"
                       >
                         {agent.hidden ? 'Unhide' : 'Hide'}
                       </Button>
