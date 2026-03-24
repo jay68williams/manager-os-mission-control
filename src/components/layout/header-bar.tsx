@@ -295,10 +295,12 @@ export function HeaderBar() {
   }
 
   return (
-    <header role="banner" aria-label="Application header" className="relative z-50 h-14 bg-card/80 backdrop-blur-sm border-b border-border px-3 md:px-4 shrink-0">
+    <header role="banner" aria-label="Application header" className="relative z-50 h-[52px] bg-[#0D0D0C] border-b border-[#333331] px-3 md:px-4 shrink-0" style={{ borderBottomWidth: '0.5px' }}>
       <div className="h-full flex items-center gap-2 md:gap-3">
-        {/* Left: Page title + context */}
+        {/* Left: Brand + context */}
         <div className="flex min-w-0 items-center gap-2.5 shrink-0">
+          <span className="text-sm font-bold text-[#F0EFEC] tracking-tight hidden sm:inline">Manager OS</span>
+          <span className="text-[13px] text-[#888884] hidden sm:inline">Mission Control</span>
           {activeProject ? (
             <Button
               variant="outline"
@@ -306,18 +308,18 @@ export function HeaderBar() {
               onClick={() => navigateToPanel('tasks')}
               onMouseEnter={() => prefetchPanel('tasks')}
               onFocus={() => prefetchPanel('tasks')}
-              className="hidden lg:flex items-center gap-1 text-2xs bg-secondary/50 min-w-0 max-w-[320px]"
+              className="hidden lg:flex items-center gap-1 text-2xs bg-[#1C1C1B] border-[#333331] min-w-0 max-w-[320px]"
               title={`Scoped to project: ${activeProject.name}`}
             >
-              <span className="text-muted-foreground/60 truncate">{activeTenant?.display_name || 'Default'}</span>
-              <span className="text-muted-foreground/40">/</span>
-              <span className="font-medium text-foreground truncate">{activeProject.name}</span>
+              <span className="text-[#888884] truncate">{activeTenant?.display_name || 'Default'}</span>
+              <span className="text-[#555552]">/</span>
+              <span className="font-medium text-[#F0EFEC] truncate">{activeProject.name}</span>
             </Button>
           ) : activeTenant ? (
-            <div className="hidden lg:flex items-center gap-1 px-2 py-1 rounded-md bg-secondary/40 text-2xs">
-              <span className="text-muted-foreground">{th('workspace')}</span>
-              <span className="text-muted-foreground/40">/</span>
-              <span className="font-medium text-foreground truncate max-w-[220px]">{activeTenant.display_name}</span>
+            <div className="hidden lg:flex items-center gap-1 px-2 py-1 rounded-md bg-[#1C1C1B] text-2xs">
+              <span className="text-[#888884]">{th('workspace')}</span>
+              <span className="text-[#555552]">/</span>
+              <span className="font-medium text-[#F0EFEC] truncate max-w-[220px]">{activeTenant.display_name}</span>
             </div>
           ) : null}
 
@@ -330,7 +332,7 @@ export function HeaderBar() {
             variant="outline"
             size="sm"
             onClick={openCommandPalette}
-            className="h-10 w-full justify-between bg-secondary/35 hover:border-primary/40 hover:bg-secondary/50 px-3"
+            className="h-10 w-full justify-between bg-[#1C1C1B] border-[#333331] hover:border-[#444441] hover:bg-[#252524] px-3"
           >
             <span className="flex items-center gap-2 min-w-0">
               <SearchIcon />
@@ -470,9 +472,9 @@ function ModeBadge({
 
   if (isLocal) {
     return (
-      <div className="flex items-center gap-1.5 px-2 py-1 rounded-md text-2xs bg-void-cyan/10 border border-void-cyan/25">
-        <span className="w-1.5 h-1.5 rounded-full bg-void-cyan" />
-        <span className="font-medium text-void-cyan">{th('local')}</span>
+      <div className="flex items-center gap-1.5 px-2 py-1 rounded-md text-2xs bg-[#1C1C1B] border border-[#333331]">
+        <span className="w-1.5 h-1.5 rounded-full bg-[#E8353C]" />
+        <span className="font-medium text-[#F0EFEC]">{th('local')}</span>
       </div>
     )
   }

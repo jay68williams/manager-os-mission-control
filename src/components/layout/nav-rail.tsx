@@ -236,13 +236,14 @@ export function NavRail() {
       <nav
         role="navigation"
         aria-label="Main navigation"
-        className={`hidden md:flex flex-col bg-gradient-to-b from-card to-background border-r border-border shrink-0 transition-all duration-200 ease-in-out ${
-          sidebarExpanded ? 'w-[220px]' : 'w-14'
+        className={`hidden md:flex flex-col bg-[#111110] border-r border-[#1C1C1B] shrink-0 transition-all duration-200 ease-in-out ${
+          sidebarExpanded ? 'w-[200px]' : 'w-[56px]'
         }`}
+        style={{ borderRightWidth: '0.5px' }}
       >
         {/* Header: Logo + toggle */}
         <div className={`flex items-center shrink-0 ${sidebarExpanded ? 'px-3 py-3 gap-2.5' : 'flex-col py-3 gap-2'}`}>
-          <div className="w-9 h-9 rounded-lg overflow-hidden bg-background border border-border/50 flex items-center justify-center shrink-0 hover:border-void-cyan/40 hover:glow-cyan transition-smooth">
+          <div className="w-9 h-9 rounded-lg overflow-hidden bg-[#1C1C1B] border border-[#333331] flex items-center justify-center shrink-0 hover:border-[#444441] transition-all duration-150">
             <Image
               src="/brand/mc-logo-128.png"
               alt="Mission Control logo"
@@ -343,17 +344,17 @@ export function NavRail() {
                               onFocus={() => item.children?.forEach(child => prefetchPanel(child.id))}
                               className={`flex-1 flex items-center gap-2 px-2 py-1.5 h-auto rounded-lg rounded-r-none text-left justify-start relative ${
                                 activeTab === item.id
-                                  ? 'bg-primary/15 text-primary hover:bg-primary/20'
+                                  ? 'bg-[#1C1C1B] text-[#E8353C] hover:bg-[#252524]'
                                   : childActive && !isParentExpanded
-                                    ? 'bg-primary/10 text-primary/80 hover:bg-primary/15'
-                                    : ''
+                                    ? 'bg-[#1C1C1B]/60 text-[#E8353C]/80 hover:bg-[#1C1C1B]'
+                                    : 'text-[#888884] hover:text-[#F0EFEC] hover:bg-[#1C1C1B]'
                               }`}
                             >
                               {activeTab === item.id && (
-                                <div className="absolute left-0 top-1/2 -translate-y-1/2 w-[3px] h-4 bg-primary rounded-r-full" />
+                                <div className="absolute left-0 top-1/2 -translate-y-1/2 w-[2px] h-4 bg-[#E8353C] rounded-r-full" />
                               )}
-                              <div className="w-5 h-5 shrink-0">{item.icon}</div>
-                              <span className="text-sm truncate flex-1">{item.label}</span>
+                              <div className={`w-5 h-5 shrink-0 ${activeTab === item.id ? 'text-[#E8353C]' : 'text-[#555552]'}`}>{item.icon}</div>
+                              <span className={`text-sm truncate flex-1 ${activeTab === item.id ? 'text-[#F0EFEC]' : ''}`}>{item.label}</span>
                             </Button>
                             <button
                               onClick={(e) => { e.stopPropagation(); toggleParent(item.id) }}
@@ -420,25 +421,25 @@ export function NavRail() {
               href="https://x.com/nyk_builderz/status/2022996371922649192?s=20"
               target="_blank"
               rel="noopener noreferrer"
-              className="block rounded-lg border border-border/50 bg-surface-1 hover:bg-surface-2 hover:border-primary/30 transition-all duration-200 p-2 group"
+              className="block rounded-lg border border-[#333331] bg-[#1C1C1B] hover:bg-[#252524] hover:border-[#444441] transition-all duration-150 p-2 group"
             >
               <div className="flex items-center gap-1.5 mb-0.5">
-                <span className="text-2xs font-semibold text-foreground group-hover:text-primary transition-colors">xint</span>
-                <span className="text-[9px] px-1 py-px rounded bg-primary/15 text-primary font-mono">CLI</span>
+                <span className="text-2xs font-semibold text-[#F0EFEC] group-hover:text-[#E8353C] transition-colors">xint</span>
+                <span className="text-[9px] px-1 py-px rounded bg-[#E8353C]/15 text-[#E8353C] font-mono">CLI</span>
               </div>
-              <p className="text-[10px] text-muted-foreground/70 leading-snug">X power tools for agents.</p>
+              <p className="text-[10px] text-[#888884] leading-snug">X power tools for agents.</p>
             </a>
             <a
               href="https://builderz.dev"
               target="_blank"
               rel="noopener noreferrer"
-              className="block rounded-lg border border-void-cyan/20 bg-gradient-to-br from-void-cyan/5 to-transparent hover:from-void-cyan/10 hover:border-void-cyan/40 transition-all duration-200 p-2 group"
+              className="block rounded-lg border border-[#333331] bg-[#1C1C1B] hover:bg-[#252524] hover:border-[#444441] transition-all duration-150 p-2 group"
             >
               <div className="flex items-center gap-1.5 mb-0.5">
-                <span className="text-2xs font-bold text-foreground group-hover:text-void-cyan transition-colors">builderz</span>
-                <span className="text-[9px] px-1 py-px rounded bg-void-cyan/15 text-void-cyan">.dev</span>
+                <span className="text-2xs font-bold text-[#F0EFEC] group-hover:text-[#E8353C] transition-colors">builderz</span>
+                <span className="text-[9px] px-1 py-px rounded bg-[#E8353C]/15 text-[#E8353C]">.dev</span>
               </div>
-              <p className="text-[10px] text-muted-foreground/70 leading-snug">AI-native dev shop · Solana experts.</p>
+              <p className="text-[10px] text-[#888884] leading-snug">AI-native dev shop · Solana experts.</p>
             </a>
           </div>
         )}
@@ -493,15 +494,15 @@ function NavButton({ item, active, expanded, onClick, onPrefetch, nested }: {
           nested ? 'py-1' : 'py-1.5'
         } ${
           active
-            ? 'bg-primary/15 text-primary hover:bg-primary/20'
-            : ''
+            ? 'bg-[#1C1C1B] text-[#E8353C] hover:bg-[#252524]'
+            : 'text-[#888884] hover:text-[#F0EFEC] hover:bg-[#1C1C1B]'
         }`}
       >
         {active && (
-          <span className="absolute left-0 w-0.5 h-5 bg-void-cyan rounded-r glow-cyan" />
+          <span className="absolute left-0 w-[2px] h-5 bg-[#E8353C] rounded-r" />
         )}
-        <div className={`shrink-0 ${nested ? 'w-4 h-4' : 'w-5 h-5'}`}>{item.icon}</div>
-        <span className={`truncate ${nested ? 'text-xs' : 'text-sm'}`}>{item.label}</span>
+        <div className={`shrink-0 ${nested ? 'w-4 h-4' : 'w-5 h-5'} ${active ? 'text-[#E8353C]' : 'text-[#555552]'}`}>{item.icon}</div>
+        <span className={`truncate ${nested ? 'text-xs' : 'text-sm'} ${active ? 'text-[#F0EFEC]' : ''}`}>{item.label}</span>
       </Button>
     )
   }
@@ -517,18 +518,18 @@ function NavButton({ item, active, expanded, onClick, onPrefetch, nested }: {
       aria-current={active ? 'page' : undefined}
       className={`rounded-lg group relative ${
         active
-          ? 'bg-primary/15 text-primary hover:bg-primary/20'
-          : ''
+          ? 'bg-[#1C1C1B] text-[#E8353C] hover:bg-[#252524]'
+          : 'text-[#555552] hover:text-[#F0EFEC] hover:bg-[#1C1C1B]'
       }`}
     >
-      <div className="w-5 h-5">{item.icon}</div>
+      <div className={`w-5 h-5 ${active ? 'text-[#E8353C]' : ''}`}>{item.icon}</div>
       {/* Tooltip */}
-      <span className="absolute left-full ml-2 px-2 py-1 text-xs font-medium bg-popover text-popover-foreground border border-border rounded-md opacity-0 group-hover:opacity-100 pointer-events-none whitespace-nowrap z-50 transition-opacity">
+      <span className="absolute left-full ml-2 px-2 py-1 text-xs font-medium bg-[#252524] text-[#F0EFEC] border border-[#333331] rounded-md opacity-0 group-hover:opacity-100 pointer-events-none whitespace-nowrap z-50 transition-opacity">
         {item.label}
       </span>
       {/* Active indicator */}
       {active && (
-        <span className="absolute left-0 w-0.5 h-5 bg-primary rounded-r" />
+        <span className="absolute left-0 w-[2px] h-5 bg-[#E8353C] rounded-r" />
       )}
     </Button>
   )
